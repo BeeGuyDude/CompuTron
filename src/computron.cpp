@@ -76,45 +76,53 @@ void execute(std::array<int, memorySize>& memory,
         	word = inputs[inputIndex];
 			// Assign the value of 'word' to the memory location pointed to by 'opPtr'
 			// Increment the instruction counter (icPtr) to point to the next instruction
-			inputIndex++;
+			memory[*opPtr] = word;	//Read the input into memory
+			inputIndex++;	//Increment the input to the next one
+			(*icPtr)++;		//Increment instruction counter
 			break;
-		
 		case Command::write:
         	//Dereference 'icPtr' to access the instruction counter and increment its value by 1
          	// use the below cout if needed but comment before submission
-        	//std::cout << "Contents of " << std::setfill('0') << std::setw(2) 
-        	//          << *opPtr << " : " << memory[*opPtr] << "\n";
-        	break;
+        	std::cout << "[WRITE] Contents of " << std::setfill('0') << std::setw(2) 
+        	          << *opPtr << " : " << memory[*opPtr] << "\n";
+			(*icPtr)++;		//Increment instruction counter
+			break;
       
 		case Command::load:
         	//Load the value from the memory location pointed to by 'opPtr' into the accumulator (acPtr)
         	//Increment the instruction counter (icPtr) to point to the next instruction
-        	break;
+        	(*icPtr)++;		//Increment instruction counter
+			break;
 
 		case Command::store:
 			// Store the value in the accumulator (acPtr) into the memory location pointed to by 'opPtr'
 			// Increment the instruction counter (icPtr) to move to the next instruction
+			(*icPtr)++;		//Increment instruction counter
 			break;
 
 		case Command::add:
 			// Add the value in the accumulator (acPtr) to the value in memory at the location pointed to by 'opPtr' and store the result in 'word'
 			// If the result is valid, store it in the accumulator and increment the instruction counter
 			// / If the result is invalid, throw a runtime error 
+			(*icPtr)++;		//Increment instruction counter
 			break;
 
 		case Command::subtract:
         	// Subtract the value in memory at the location pointed to by 'opPtr' from the value in the accumulator (acPtr) and store the result in 'word'
         	// If the result is valid, store it in the accumulator and increment the instruction counter
         	// / If the result is invalid, throw a runtime error 
-        	break;
+        	(*icPtr)++;		//Increment instruction counter
+			break;
 
       	case Command::multiply:
         	// as above do it for multiplication
-        	break;
+        	(*icPtr)++;		//Increment instruction counter
+			break;
 
       	case Command::divide:
          	// as above do it for division
-        	break;
+        	(*icPtr)++;		//Increment instruction counter
+			break;
 
       	case Command::branch:
         	*icPtr = *opPtr;
@@ -136,10 +144,6 @@ void execute(std::array<int, memorySize>& memory,
         	//Should theoretically never be called
         	break;
     	};
-
-		//Increment instruction counter
-		(*icPtr)++;
-
 	} while (opCodeToCommand(*opCodePtr) != Command::halt);		//Can be modified if needed
 };
 
