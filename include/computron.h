@@ -4,6 +4,7 @@
 #include <iostream>
 #include <array>
 #include <string>
+#include <vector>
 
 constexpr size_t memorySize{100};
 constexpr int minWord{-9999};

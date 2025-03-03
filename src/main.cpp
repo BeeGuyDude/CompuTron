@@ -1,5 +1,9 @@
 #include "computron.h"
-int main(){
+
+#define CATCH_CONFIG_MAIN
+
+int main() {
+	//Instantiate all working memory of CompuTron
 	std::array<int, memorySize> memory{0};
 	int accumulator{0};
 	size_t instructionCounter{0};
@@ -10,7 +14,7 @@ int main(){
 	const std::vector<int> inputs{4, 5};
   
 	load_from_file(memory, "p1.txt");
-  
+	
 	execute(memory, &accumulator, 
         &instructionCounter, &instructionRegister,
         &operationCode, &operand, inputs);
