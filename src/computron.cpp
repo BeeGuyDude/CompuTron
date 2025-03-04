@@ -149,6 +149,11 @@ void execute(std::array<int, memorySize>& memory,
 				throw std::runtime_error("An invalid division operation was attempted!");
 			}
 
+			//Check if the division operator is possible using only integers; throw error if not
+			if (*acPtr % memory[*opPtr] != 0) {
+				throw std::runtime_error("A division operation was attempted that was impossible with an integer result!");
+			}
+
 			if (std::abs(word) < 10000) {
 				*acPtr = word;	//Set the accumulator to the result
 				(*icPtr)++;		//Increment instruction counter
