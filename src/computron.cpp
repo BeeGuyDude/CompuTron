@@ -37,7 +37,8 @@ void load_from_file(std::array<int, memorySize>& memory, const std::string& file
 //Convert an opcode to a valid command and return it
 Command opCodeToCommand(size_t opCode) {
 	switch(opCode) {
-    	case 10: return Command::read;
+    	case 00: throw std::runtime_error("A (blank) variable was included in the instruction sequence!");
+		case 10: return Command::read;
       	case 11: return Command::write;
 		case 20: return Command::load;
 		case 21: return Command::store;
@@ -49,7 +50,7 @@ Command opCodeToCommand(size_t opCode) {
 		case 41: return Command::branchNeg;
 		case 42: return Command::branchZero;
 		case 43: return Command::halt;
-		//default: throw std::runtime_error("A command was run with an invalid OpCode!");
+		default: throw std::runtime_error("A command was run with an invalid OpCode!");
 	};
 }
 
