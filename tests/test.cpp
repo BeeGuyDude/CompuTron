@@ -25,6 +25,28 @@ TEST_CASE("File Processing Tests", "[CompuTron]") {
 	REQUIRE_THROWS_AS(load_from_file(memory, "nonexistent.txt"), std::runtime_error);
 }
 
-TEST_CASE("Basic Command Parsing Tests", "[CompuTron]") {
+TEST_CASE("Individual Command Execution Tests", "[CompuTron]") {
+	//Read Command
 	
+	//Write Command
+
+	//Load Command
+
+	//Store Command
+
+	//Add Command
+
+	//Subtract Command
+
+	//Multiply Command
+
+	//Divide Command
+
+	//Branch Command
+
+	//BranchNeg Command
+
+	//BranchZero Command
+
+	//Halt Command
 }

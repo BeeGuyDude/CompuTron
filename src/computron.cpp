@@ -145,7 +145,7 @@ void execute(std::array<int, memorySize>& memory,
 			word = *acPtr / memory[*opPtr];
 			
 			//Check if the division operation is possible, throw error if not
-			if (*acPtr < memory[*opPtr] || memory[*opPtr] == 0) {
+			if (std::abs(*acPtr) < std::abs(memory[*opPtr]) || memory[*opPtr] == 0) {
 				throw std::runtime_error("An invalid division operation was attempted!");
 			}
 
