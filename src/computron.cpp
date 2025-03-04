@@ -216,7 +216,7 @@ void dump(std::array<int, memorySize>& memory, int accumulator,
 	for (int i = 0; i < 10; i++) std::cout << "\t" << i;
 	
 	//Row loop
-	for (int index = 0; index < (long unsigned int)memorySize; index++) {
+	for (size_t index = 0; index < memorySize; index++) {
 		//Check if column header
 		if (index % 10 == 0) {
 			//Print tens place of memory address
@@ -248,7 +248,7 @@ void output(std::string label, int width, int value, bool sign) {
 	std::string valueStr = std::to_string(value);
 	if (valueStr.length() < (unsigned long int)width) {
 		//Left pad the value with zeroes
-		for (int i = 0; i < (unsigned long int)(width - valueStr.length()); i++) std::cout << "0";
+		for (size_t i = 0; i < width - valueStr.length(); i++) std::cout << "0";
 	}
 	std::cout << valueStr;
 	if (label != "") std::cout << "\n";
