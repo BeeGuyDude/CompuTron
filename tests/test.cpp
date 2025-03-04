@@ -50,6 +50,7 @@ TEST_CASE("Individual Command Execution Tests", "[CompuTron]") {
 	//No way to programmatically test, all functionality is designed to be human-output
 
 	//Load Command
+	//OUT OF TIME TESTING DIVISION AND VALIDWORD EDGE CASES
 
 	//Store Command
 
@@ -60,7 +61,7 @@ TEST_CASE("Individual Command Execution Tests", "[CompuTron]") {
 	//Multiply Command
 
 	//Divide Command
-
+	
 	//Branch Command
 
 	//BranchNeg Command
