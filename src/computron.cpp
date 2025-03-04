@@ -37,7 +37,7 @@ void load_from_file(std::array<int, memorySize>& memory, const std::string& file
 //Convert an opcode to a valid command and return it
 Command opCodeToCommand(size_t opCode) {
 	switch(opCode) {
-    	case 00: throw std::runtime_error("A (blank) variable was included in the instruction sequence!");
+    	case 00: throw std::runtime_error("A (blank) variable was attempted to be decoded!");
 		case 10: return Command::read;
       	case 11: return Command::write;
 		case 20: return Command::load;
@@ -85,6 +85,7 @@ void execute(std::array<int, memorySize>& memory,
 			inputIndex++;	//Increment the input to the next one
 			(*icPtr)++;		//Increment instruction counter
 			break;
+
 		case Command::write:
         	//Dereference 'icPtr' to access the instruction counter and increment its value by 1
          	// use the below cout if needed but comment before submission
@@ -215,7 +216,7 @@ void dump(std::array<int, memorySize>& memory, int accumulator,
 	for (int i = 0; i < 10; i++) std::cout << "\t" << i;
 	
 	//Row loop
-	for (int index = 0; index < memorySize; index++) {
+	for (int index = 0; index < (long unsigned int)memorySize; index++) {
 		//Check if column header
 		if (index % 10 == 0) {
 			//Print tens place of memory address
@@ -245,9 +246,9 @@ void output(std::string label, int width, int value, bool sign) {
 
 	//Check if the value is of the correct width (and pad it if not), and print it
 	std::string valueStr = std::to_string(value);
-	if (valueStr.length() < width) {
+	if (valueStr.length() < (unsigned long int)width) {
 		//Left pad the value with zeroes
-		for (int i = 0; i < width - valueStr.length(); i++) std::cout << "0";
+		for (int i = 0; i < (unsigned long int)(width - valueStr.length()); i++) std::cout << "0";
 	}
 	std::cout << valueStr;
 	if (label != "") std::cout << "\n";
