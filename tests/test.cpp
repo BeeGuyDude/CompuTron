@@ -34,9 +34,7 @@ TEST_CASE("Individual Command Execution Tests", "[CompuTron]") {
 	std::vector<int> inputs{0};
 
 	//Read Command
-	std::array<int, 100> readTest;
-	readTest[0] = 1001;
-	readTest[1] = 1234;
+	std::array<int, memorySize> readTest{1001, 1234};
 	execute(readTest, &accumulator,
 			&instructionCounter, &instructionRegister,
 			&operationCode, &operand, inputs);
@@ -44,6 +42,12 @@ TEST_CASE("Individual Command Execution Tests", "[CompuTron]") {
 	REQUIRE(accumulator == 0);	//Confirm memory location was wiped (set to 0000)
 	
 	//Write Command
+	std::array<int, memorySize> writeTest{1101, 1234};
+	execute(readTest, &accumulator,
+			&instructionCounter, &instructionRegister,
+			&operationCode, &operand, inputs);
+	dump(readTest, accumulator, instructionCounter, instructionRegister, operationCode, operand);
+	//No way to programmatically test, all functionality is designed to be human-output
 
 	//Load Command
 
