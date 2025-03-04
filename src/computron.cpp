@@ -91,12 +91,14 @@ void execute(std::array<int, memorySize>& memory,
 		case Command::load:
         	//Load the value from the memory location pointed to by 'opPtr' into the accumulator (acPtr)
         	//Increment the instruction counter (icPtr) to point to the next instruction
-        	(*icPtr)++;		//Increment instruction counter
+        	(*acPtr) = memory[*opPtr];
+			(*icPtr)++;		//Increment instruction counter
 			break;
 
 		case Command::store:
 			// Store the value in the accumulator (acPtr) into the memory location pointed to by 'opPtr'
 			// Increment the instruction counter (icPtr) to move to the next instruction
+			memory[*opPtr] = *acPtr;
 			(*icPtr)++;		//Increment instruction counter
 			break;
 
@@ -104,24 +106,48 @@ void execute(std::array<int, memorySize>& memory,
 			// Add the value in the accumulator (acPtr) to the value in memory at the location pointed to by 'opPtr' and store the result in 'word'
 			// If the result is valid, store it in the accumulator and increment the instruction counter
 			// / If the result is invalid, throw a runtime error 
-			(*icPtr)++;		//Increment instruction counter
+			word = *acPtr + memory[*opPtr];
+			if (std::abs(word) < 10000) {
+				*acPtr = word;	//Set the accumulator to the result
+				(*icPtr)++;		//Increment instruction counter
+			} else {
+				throw std::runtime_error("The result of an addition operation overflowed the buffer size!");
+			}
 			break;
 
 		case Command::subtract:
         	// Subtract the value in memory at the location pointed to by 'opPtr' from the value in the accumulator (acPtr) and store the result in 'word'
         	// If the result is valid, store it in the accumulator and increment the instruction counter
         	// / If the result is invalid, throw a runtime error 
-        	(*icPtr)++;		//Increment instruction counter
+			word = *acPtr - memory[*opPtr];
+			if (std::abs(word) < 10000) {
+				*acPtr = word;	//Set the accumulator to the result
+				(*icPtr)++;		//Increment instruction counter
+			} else {
+				throw std::runtime_error("The result of a subtraction operation overflowed the buffer size!");
+			}
 			break;
 
       	case Command::multiply:
         	// as above do it for multiplication
-        	(*icPtr)++;		//Increment instruction counter
+			word = *acPtr * memory[*opPtr];
+			if (std::abs(word) < 10000) {
+				*acPtr = word;	//Set the accumulator to the result
+				(*icPtr)++;		//Increment instruction counter
+			} else {
+				throw std::runtime_error("The result of a multiplication operation overflowed the buffer size!");
+			}
 			break;
 
       	case Command::divide:
          	// as above do it for division
-        	(*icPtr)++;		//Increment instruction counter
+			word = *acPtr / memory[*opPtr];
+			if (std::abs(word) < 10000) {
+				*acPtr = word;	//Set the accumulator to the result
+				(*icPtr)++;		//Increment instruction counter
+			} else {
+				throw std::runtime_error("The result of a division operation overflowed the buffer size!");
+			}
 			break;
 
       	case Command::branch:
@@ -165,19 +191,46 @@ void dump(std::array<int, memorySize>& memory, int accumulator,
          size_t instructionCounter, size_t instructionRegister,
          size_t operationCode, size_t operand) {
 	//Output block of the working variables in order
-	std::cout << "Registers\n"
-			  << "accumulator\t\t" << accumulator << "\n"
-			  << "instructionCounter\t" << instructionCounter << "\n"
-			  << "instructionRegister\t" << instructionRegister << "\n"
-			  << "operationCode\t\t" << operationCode << "\n"
-			  << "operand\t\t\t" << operand << "\n\n";
+	//std::cout << "Registers\n"
+	//		  << "accumulator\t\t" << accumulator << "\n"
+	//		  << "instructionCounter\t" << instructionCounter << "\n"
+	//		  << "instructionRegister\t" << instructionRegister << "\n"
+	//		  << "operationCode\t\t" << operationCode << "\n"
+	//		  << "operand\t\t\t" << operand << "\n\n";
+	
+	output("accumulator", 4, accumulator, true);
+	output("instructionCounter", 2, instructionCounter, false);
+	output("instructionRegister", 4, instructionRegister, true);
+	output("operationCode", 2, operationCode, false);
+	output("operand", 2, operand, false);
 
-	//Output the entire working memory
+	//Output the entire working memory iteratively
 		
 }
 
-//Output the working memory of the CompuTron as a block
+//Output one specific word with a sign and width, and potentially a string label
 void output(std::string label, int width, int value, bool sign) {
-	
+	//Check if the label is populated or not
+	if (label != "") {
+		//Print label and separator
+		std::cout << label << "\t";
+	}
+
+	//Check if sign is included
+	if (sign) {
+		if (value < 0) {
+			std::cout << "-";
+		} else {
+			std::cout << "+";
+		}
+	}
+
+	//Check if the value is of the correct width (and pad it if not), and print it
+	std::string valueStr = std::to_string(value);
+	if (valueStr.length() < width) {
+		//Left pad the value with zeroes
+		for (int i = 0; i < width - valueStr.length(); i++) std::cout << "0";
+	}
+	std::cout << valueStr << "\n";
 }
 
