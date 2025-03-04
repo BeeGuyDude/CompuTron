@@ -78,7 +78,7 @@ void execute(std::array<int, memorySize>& memory,
 
 		switch(int word{}; opCodeToCommand(*opCodePtr)) {
       	case Command::read:
-        	word = inputs[inputIndex];
+			word = inputs[inputIndex];
 			// Assign the value of 'word' to the memory location pointed to by 'opPtr'
 			// Increment the instruction counter (icPtr) to point to the next instruction
 			memory[*opPtr] = word;	//Read the input into memory
@@ -190,10 +190,14 @@ bool validWord(int word) {
 		//Edge case checking 
 		if (absWord == 0) {
 			return true;
-		} else if (absWord == 99999) {
+		} else if (word == -99999) {
 			return true;
 		} else {
-			return false;
+			if (absWord < 100) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 	}
 }

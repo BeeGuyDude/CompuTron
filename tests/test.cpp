@@ -26,7 +26,22 @@ TEST_CASE("File Processing Tests", "[CompuTron]") {
 }
 
 TEST_CASE("Individual Command Execution Tests", "[CompuTron]") {
+	int accumulator{0};
+	size_t instructionCounter{0};
+	int instructionRegister{0};
+	size_t operationCode{0};
+	size_t operand{0};
+	std::vector<int> inputs{0};
+
 	//Read Command
+	std::array<int, 100> readTest;
+	readTest[0] = 1001;
+	readTest[1] = 1234;
+	execute(readTest, &accumulator,
+			&instructionCounter, &instructionRegister,
+			&operationCode, &operand, inputs);
+	dump(readTest, accumulator, instructionCounter, instructionRegister, operationCode, operand);
+	REQUIRE(accumulator == 0);	//Confirm memory location was wiped (set to 0000)
 	
 	//Write Command
 
