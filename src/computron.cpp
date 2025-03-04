@@ -122,9 +122,6 @@ void execute(std::array<int, memorySize>& memory,
 			break;
 
 		case Command::subtract:
-        	// Subtract the value in memory at the location pointed to by 'opPtr' from the value in the accumulator (acPtr) and store the result in 'word'
-        	// If the result is valid, store it in the accumulator and increment the instruction counter
-        	// / If the result is invalid, throw a runtime error 
 			word = *acPtr - memory[*opPtr];
 			if (std::abs(word) < 10000) {
 				*acPtr = word;	//Set the accumulator to the result
@@ -135,7 +132,6 @@ void execute(std::array<int, memorySize>& memory,
 			break;
 
       	case Command::multiply:
-        	// as above do it for multiplication
 			word = *acPtr * memory[*opPtr];
 			if (std::abs(word) < 10000) {
 				*acPtr = word;	//Set the accumulator to the result
@@ -146,8 +142,13 @@ void execute(std::array<int, memorySize>& memory,
 			break;
 
       	case Command::divide:
-         	// as above do it for division
 			word = *acPtr / memory[*opPtr];
+			
+			//Check if the division operation is possible, throw error if not
+			if (*acPtr < memory[*opPtr] || memory[*opPtr] == 0) {
+				throw std::runtime_error("An invalid division operation was attempted!");
+			}
+
 			if (std::abs(word) < 10000) {
 				*acPtr = word;	//Set the accumulator to the result
 				(*icPtr)++;		//Increment instruction counter
@@ -186,9 +187,14 @@ bool validWord(int word) {
 	if (absWord > 999 && absWord < 10000) {
 		return true;
 	} else {
-		//TODO: Integrate this edge case into the main logic better
-		if (absWord == 0) return true;
-		return false;
+		//Edge case checking 
+		if (absWord == 0) {
+			return true;
+		} else if (absWord == 99999) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
 
