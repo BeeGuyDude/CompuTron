@@ -21,7 +21,6 @@ void load_from_file(std::array<int, memorySize>& memory, const std::string& file
     	instruction = std::stoi(line); 
     	if (instruction == sentinel) break; 
  		
-		std::cout << "Processing instruction: " << line << "\n";
     	//Check if the instruction is valid using the validWord function
     	if (validWord(instruction)) {
 			//If the instruction is valid, store it in memory at position 'i' and increment 'i'
@@ -83,8 +82,8 @@ void execute(std::array<int, memorySize>& memory,
 		case Command::write:
         	//Dereference 'icPtr' to access the instruction counter and increment its value by 1
          	// use the below cout if needed but comment before submission
-        	std::cout << "[WRITE] Contents of " << std::setfill('0') << std::setw(2) 
-        	          << *opPtr << " : " << memory[*opPtr] << "\n";
+        	//std::cout << "[WRITE] Contents of " << std::setfill('0') << std::setw(2) 
+        	//          << *opPtr << " : " << memory[*opPtr] << "\n";
 			(*icPtr)++;		//Increment instruction counter
 			break;
       
@@ -205,16 +204,29 @@ void dump(std::array<int, memorySize>& memory, int accumulator,
 	output("operand", 2, operand, false);
 
 	//Output the entire working memory iteratively
+	std::cout << "Memory:\n";
+	
+	for (int i = 0; i < 10; i++) std::cout << "\t" << i;
+	
+	//Row loop
+	for (int index = 0; index < memorySize; index++) {
+		//Check if column header
+		if (index % 10 == 0) {
+			//Print tens place of memory address
+			std::cout << "\n" << index - (index % 10);
+		}
 		
+		//Print item at address
+		output("", 4, memory[index], true);
+	}
+	//Add newline after memory dump
+	std::cout << "\n";	
 }
 
 //Output one specific word with a sign and width, and potentially a string label
 void output(std::string label, int width, int value, bool sign) {
-	//Check if the label is populated or not
-	if (label != "") {
-		//Print label and separator
-		std::cout << label << "\t";
-	}
+	//Print label and separator
+	std::cout << label << "\t";
 
 	//Check if sign is included
 	if (sign) {
@@ -231,6 +243,7 @@ void output(std::string label, int width, int value, bool sign) {
 		//Left pad the value with zeroes
 		for (int i = 0; i < width - valueStr.length(); i++) std::cout << "0";
 	}
-	std::cout << valueStr << "\n";
+	std::cout << valueStr;
+	if (label != "") std::cout << "\n";
 }
 
