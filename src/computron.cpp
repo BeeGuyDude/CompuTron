@@ -70,6 +70,12 @@ void execute(std::array<int, memorySize>& memory,
 		*opCodePtr = *irPtr / 100; 	//Left two digits
 		*opPtr = *irPtr % 100; 		//Right two digits
     	
+		//Zero check to skip over variables if contained inside the program?
+		if (*opCodePtr == 0) {
+			(*icPtr)++;
+			break;
+		}
+
 		switch(int word{}; opCodeToCommand(*opCodePtr)) {
       	case Command::read:
         	word = inputs[inputIndex];
